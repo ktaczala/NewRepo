@@ -2,11 +2,13 @@
 
 namespace DelegateDemoProject;
 
-// create delagates
-// manual delagate
+// create delegates
+// manual delegate
 public delegate void Callback(int i);
-// background worker delagate
+// background worker delegate
 public delegate void Callback1(int i, DoWorkEventArgs e);
+// Async delegate
+public delegate void Callback2(int i);
 
 public class UpdateProgressBar
 {
@@ -23,9 +25,9 @@ public class UpdateProgressBar
                 MyVariables.stopmanual = false;
                 return; 
             }
-                // call the delagate to update the progressbar and the count
+                // call the delegate to update the progressbar and the count
                 obj(i);
-            // delay
+            // delay for effect
             Thread.Sleep(100);
         }
     }
@@ -44,8 +46,27 @@ public class UpdateProgressBar
                 e.Cancel = true;
                 return;
             }
-            // call delagate to update progress bar, count
+            // call delegate to update progress bar, count
             obj(i, e);
+            // delay for effect
+            Thread.Sleep(100);
+        }
+    }
+    //update the progressbar via Async method
+    public static void IncrementProgressBarAsync(Callback2 obj)
+    {
+        // simulate looping thru some data
+        for (int i = 1; i <= 100; i++)
+        {
+            // check for cancel button clicked
+            if (MyVariables._cancelSource!.IsCancellationRequested)
+            {
+                // stop processing data
+                return;
+            }
+            // call delegate to update progress bar, count
+            obj(i);
+            // delay for effect
             Thread.Sleep(100);
         }
     }

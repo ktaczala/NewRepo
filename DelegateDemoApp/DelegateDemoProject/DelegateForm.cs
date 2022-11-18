@@ -2,9 +2,9 @@ using System.ComponentModel;
 
 namespace DelegateDemoProject;
 
-public partial class DelagateForm : Form
+public partial class DelegateForm : Form
 {
-    public DelagateForm()
+    public DelegateForm()
     {
         InitializeComponent();
         // set default values for progressbars
@@ -12,8 +12,10 @@ public partial class DelagateForm : Form
         TestProgressBar.Step = 1;
         BGWProgressBar.Maximum = 100;
         BGWProgressBar.Step = 1;
+        AsyncProgressBar.Maximum = 100;
+        AsyncProgressBar.Step = 1;
     }
-
+    // Uses a delegate to loosley couple the code from the form
     // button to start the manual process
     private void ManualButton_Click(object sender, EventArgs e)
     {
@@ -44,6 +46,7 @@ public partial class DelagateForm : Form
         // set progressbar to current count
         TestProgressBar.Value = i;
     }
+    // Uses a delegate to loosley couple the code from the form
     // button to start the background worker job
     private void BGWButton_Click(object sender, EventArgs e)
     {
@@ -85,4 +88,34 @@ public partial class DelagateForm : Form
         // set the progress bar to the current value
         BGWProgressBar.Value = e.ProgressPercentage;
     }
+
+    // Uses a delegate to loosley couple the code from the form
+    // button to the start the async job
+    private async void Asyncbutton_Click(object sender, EventArgs e)
+    {
+        // check if Async is already running
+        if (Asyncbutton.Text == "Stop Async")
+        {
+            // if so cancel it rename button text
+            MyVariables._cancelSource.Cancel();
+            Asyncbutton.Text = "Start Async";
+            return;
+        }
+        // button clicked to start job
+        Asyncbutton.Text = "Stop Async";
+        //reset values
+        AsyncProgressBar.Value= 0;
+        AsyncCountlabel.Text = "0";
+
+        // do the work
+        await Task.Run(() => UpdateProgressBar.IncrementProgressBarAsync(Callback2));
+    }
+    //Callback for Async Method
+    private void Callback2(int i)
+    {
+        // Update the counter and the progressbar
+        AsyncCountlabel.Invoke(new Action(() => { AsyncCountlabel.Text = i.ToString(); }));
+        AsyncProgressBar.Invoke(new Action(() => { AsyncProgressBar.Value = i; }));
+    }
+
 }
