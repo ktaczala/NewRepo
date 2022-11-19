@@ -114,7 +114,7 @@ public partial class DelegateForm : Form
     private void Callback2(int i)
     {
         // Update the counter and the progressbar
-        AsyncCountlabel.Invoke(new Action(() => { AsyncCountlabel.Text = i.ToString(); }));
+        AsyncCountlabel.Invoke(new Action(() => { AsyncCountlabel.Text = $"{i}"; }));
         AsyncProgressBar.Invoke(new Action(() => { AsyncProgressBar.Value = i; }));
     }
 
