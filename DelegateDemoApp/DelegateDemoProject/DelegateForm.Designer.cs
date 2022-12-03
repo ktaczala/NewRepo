@@ -30,17 +30,17 @@
         {
             this.ManualButton = new System.Windows.Forms.Button();
             this.TestProgressBar = new System.Windows.Forms.ProgressBar();
-            this.label1 = new System.Windows.Forms.Label();
-            this.CountLabel = new System.Windows.Forms.Label();
-            this.CountLabel2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.ManualCountLabel = new System.Windows.Forms.Label();
+            this.BGWCountLabel = new System.Windows.Forms.Label();
             this.BGWProgressBar = new System.Windows.Forms.ProgressBar();
             this.BGWTest = new System.ComponentModel.BackgroundWorker();
             this.BackGroundWorkerButton = new System.Windows.Forms.Button();
             this.Asyncbutton = new System.Windows.Forms.Button();
             this.AsyncCountlabel = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.AsyncProgressBar = new System.Windows.Forms.ProgressBar();
+            this.AsyncWithIProgressBar = new System.Windows.Forms.ProgressBar();
+            this.AsyncWIProgressCountLabel = new System.Windows.Forms.Label();
+            this.AsyncIProgressButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ManualButton
@@ -55,52 +55,34 @@
             // 
             // TestProgressBar
             // 
-            this.TestProgressBar.Location = new System.Drawing.Point(119, 73);
+            this.TestProgressBar.Location = new System.Drawing.Point(118, 41);
             this.TestProgressBar.Name = "TestProgressBar";
             this.TestProgressBar.Size = new System.Drawing.Size(553, 23);
             this.TestProgressBar.Step = 1;
             this.TestProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.TestProgressBar.TabIndex = 1;
             // 
-            // label1
+            // ManualCountLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(329, 38);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 15);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Count: ";
+            this.ManualCountLabel.AutoSize = true;
+            this.ManualCountLabel.Location = new System.Drawing.Point(695, 45);
+            this.ManualCountLabel.Name = "ManualCountLabel";
+            this.ManualCountLabel.Size = new System.Drawing.Size(13, 15);
+            this.ManualCountLabel.TabIndex = 3;
+            this.ManualCountLabel.Text = "0";
             // 
-            // CountLabel
+            // BGWCountLabel
             // 
-            this.CountLabel.AutoSize = true;
-            this.CountLabel.Location = new System.Drawing.Point(381, 38);
-            this.CountLabel.Name = "CountLabel";
-            this.CountLabel.Size = new System.Drawing.Size(13, 15);
-            this.CountLabel.TabIndex = 3;
-            this.CountLabel.Text = "0";
-            // 
-            // CountLabel2
-            // 
-            this.CountLabel2.AutoSize = true;
-            this.CountLabel2.Location = new System.Drawing.Point(380, 155);
-            this.CountLabel2.Name = "CountLabel2";
-            this.CountLabel2.Size = new System.Drawing.Size(13, 15);
-            this.CountLabel2.TabIndex = 7;
-            this.CountLabel2.Text = "0";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(328, 155);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 15);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Count: ";
+            this.BGWCountLabel.AutoSize = true;
+            this.BGWCountLabel.Location = new System.Drawing.Point(696, 103);
+            this.BGWCountLabel.Name = "BGWCountLabel";
+            this.BGWCountLabel.Size = new System.Drawing.Size(13, 15);
+            this.BGWCountLabel.TabIndex = 7;
+            this.BGWCountLabel.Text = "0";
             // 
             // BGWProgressBar
             // 
-            this.BGWProgressBar.Location = new System.Drawing.Point(118, 190);
+            this.BGWProgressBar.Location = new System.Drawing.Point(118, 99);
             this.BGWProgressBar.Name = "BGWProgressBar";
             this.BGWProgressBar.Size = new System.Drawing.Size(553, 23);
             this.BGWProgressBar.Step = 1;
@@ -113,10 +95,11 @@
             this.BGWTest.WorkerSupportsCancellation = true;
             this.BGWTest.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BGWTest_DoWork);
             this.BGWTest.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.BGWTest_ProgressChanged);
+            this.BGWTest.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BGWTest_RunWorkerCompleted);
             // 
             // BackGroundWorkerButton
             // 
-            this.BackGroundWorkerButton.Location = new System.Drawing.Point(293, 119);
+            this.BackGroundWorkerButton.Location = new System.Drawing.Point(293, 70);
             this.BackGroundWorkerButton.Name = "BackGroundWorkerButton";
             this.BackGroundWorkerButton.Size = new System.Drawing.Size(162, 23);
             this.BackGroundWorkerButton.TabIndex = 8;
@@ -126,7 +109,7 @@
             // 
             // Asyncbutton
             // 
-            this.Asyncbutton.Location = new System.Drawing.Point(293, 236);
+            this.Asyncbutton.Location = new System.Drawing.Point(293, 128);
             this.Asyncbutton.Name = "Asyncbutton";
             this.Asyncbutton.Size = new System.Drawing.Size(162, 23);
             this.Asyncbutton.TabIndex = 12;
@@ -137,49 +120,68 @@
             // AsyncCountlabel
             // 
             this.AsyncCountlabel.AutoSize = true;
-            this.AsyncCountlabel.Location = new System.Drawing.Point(380, 272);
+            this.AsyncCountlabel.Location = new System.Drawing.Point(696, 161);
             this.AsyncCountlabel.Name = "AsyncCountlabel";
             this.AsyncCountlabel.Size = new System.Drawing.Size(13, 15);
             this.AsyncCountlabel.TabIndex = 11;
             this.AsyncCountlabel.Text = "0";
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(328, 272);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(46, 15);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Count: ";
-            // 
             // AsyncProgressBar
             // 
-            this.AsyncProgressBar.Location = new System.Drawing.Point(118, 307);
+            this.AsyncProgressBar.Location = new System.Drawing.Point(118, 157);
             this.AsyncProgressBar.Name = "AsyncProgressBar";
             this.AsyncProgressBar.Size = new System.Drawing.Size(553, 23);
             this.AsyncProgressBar.Step = 1;
             this.AsyncProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.AsyncProgressBar.TabIndex = 9;
             // 
-            // DelagateForm
+            // AsyncWithIProgressBar
+            // 
+            this.AsyncWithIProgressBar.Location = new System.Drawing.Point(118, 215);
+            this.AsyncWithIProgressBar.Name = "AsyncWithIProgressBar";
+            this.AsyncWithIProgressBar.Size = new System.Drawing.Size(553, 23);
+            this.AsyncWithIProgressBar.Step = 1;
+            this.AsyncWithIProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.AsyncWithIProgressBar.TabIndex = 9;
+            // 
+            // AsyncWIProgressCountLabel
+            // 
+            this.AsyncWIProgressCountLabel.AutoSize = true;
+            this.AsyncWIProgressCountLabel.Location = new System.Drawing.Point(696, 219);
+            this.AsyncWIProgressCountLabel.Name = "AsyncWIProgressCountLabel";
+            this.AsyncWIProgressCountLabel.Size = new System.Drawing.Size(13, 15);
+            this.AsyncWIProgressCountLabel.TabIndex = 11;
+            this.AsyncWIProgressCountLabel.Text = "0";
+            // 
+            // AsyncIProgressButton
+            // 
+            this.AsyncIProgressButton.Location = new System.Drawing.Point(293, 186);
+            this.AsyncIProgressButton.Name = "AsyncIProgressButton";
+            this.AsyncIProgressButton.Size = new System.Drawing.Size(162, 23);
+            this.AsyncIProgressButton.TabIndex = 12;
+            this.AsyncIProgressButton.Text = "Start Async w/IProgress";
+            this.AsyncIProgressButton.UseVisualStyleBackColor = true;
+            this.AsyncIProgressButton.Click += new System.EventHandler(this.AsyncWithIProgressbutton_Click);
+            // 
+            // DelegateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.AsyncIProgressButton);
+            this.Controls.Add(this.AsyncWIProgressCountLabel);
             this.Controls.Add(this.Asyncbutton);
+            this.Controls.Add(this.AsyncWithIProgressBar);
             this.Controls.Add(this.AsyncCountlabel);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.AsyncProgressBar);
             this.Controls.Add(this.BackGroundWorkerButton);
-            this.Controls.Add(this.CountLabel2);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.BGWCountLabel);
             this.Controls.Add(this.BGWProgressBar);
-            this.Controls.Add(this.CountLabel);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.ManualCountLabel);
             this.Controls.Add(this.TestProgressBar);
             this.Controls.Add(this.ManualButton);
-            this.Name = "DelagateForm";
-            this.Text = "Form1";
+            this.Name = "DelegateForm";
+            this.Text = "Using Delegates";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -189,16 +191,16 @@
 
         private Button ManualButton;
         private ProgressBar TestProgressBar;
-        private Label label1;
-        private Label CountLabel;
-        private Label CountLabel2;
-        private Label label3;
+        private Label ManualCountLabel;
+        private Label BGWCountLabel;
         private ProgressBar BGWProgressBar;
         private System.ComponentModel.BackgroundWorker BGWTest;
         private Button BackGroundWorkerButton;
         private Button Asyncbutton;
         private Label AsyncCountlabel;
-        private Label label4;
         private ProgressBar AsyncProgressBar;
+        private ProgressBar AsyncWithIProgressBar;
+        private Label AsyncWIProgressCountLabel;
+        private Button AsyncIProgressButton;
     }
 }
