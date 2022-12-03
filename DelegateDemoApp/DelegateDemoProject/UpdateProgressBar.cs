@@ -53,19 +53,30 @@ public class UpdateProgressBar
         }
     }
     //update the progressbar via Async method
-    public static void IncrementProgressBarAsync(Callback2 obj)
+    public static void IncrementProgressBarAsync(Callback2 obj, int count, CancellationToken token)
+
     {
         // simulate looping thru some data
-        for (int i = 1; i <= 100; i++)
+        for (int i = 1; i <= count; i++)
         {
             // check for cancel button clicked
-            if (MyVariables._cancelSource!.IsCancellationRequested)
-            {
-                // stop processing data
-                return;
-            }
+                token.ThrowIfCancellationRequested();
             // call delegate to update progress bar, count
-            obj(i);
+            obj(i * 100 / count);
+            // delay for effect
+            Thread.Sleep(100);
+        }
+    }
+    public static void IncrementIProgressBarAsync(int count, IProgress<int> progress, CancellationToken itoken)
+    {
+        // simulate looping thru some data
+        for (int i = 1; i <= count; i++)
+        {
+            // check for cancel button clicked
+            itoken.ThrowIfCancellationRequested();
+            // update progress bar
+            var percentComplete = (i * 100) / count;
+            progress.Report(percentComplete);
             // delay for effect
             Thread.Sleep(100);
         }
