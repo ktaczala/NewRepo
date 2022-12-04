@@ -41,6 +41,7 @@
             this.AsyncWithIProgressBar = new System.Windows.Forms.ProgressBar();
             this.AsyncWIProgressCountLabel = new System.Windows.Forms.Label();
             this.AsyncIProgressButton = new System.Windows.Forms.Button();
+            this.RunAllButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ManualButton
@@ -67,18 +68,18 @@
             this.ManualCountLabel.AutoSize = true;
             this.ManualCountLabel.Location = new System.Drawing.Point(695, 45);
             this.ManualCountLabel.Name = "ManualCountLabel";
-            this.ManualCountLabel.Size = new System.Drawing.Size(13, 15);
+            this.ManualCountLabel.Size = new System.Drawing.Size(23, 15);
             this.ManualCountLabel.TabIndex = 3;
-            this.ManualCountLabel.Text = "0";
+            this.ManualCountLabel.Text = "0%";
             // 
             // BGWCountLabel
             // 
             this.BGWCountLabel.AutoSize = true;
             this.BGWCountLabel.Location = new System.Drawing.Point(696, 103);
             this.BGWCountLabel.Name = "BGWCountLabel";
-            this.BGWCountLabel.Size = new System.Drawing.Size(13, 15);
+            this.BGWCountLabel.Size = new System.Drawing.Size(23, 15);
             this.BGWCountLabel.TabIndex = 7;
-            this.BGWCountLabel.Text = "0";
+            this.BGWCountLabel.Text = "0%";
             // 
             // BGWProgressBar
             // 
@@ -122,9 +123,9 @@
             this.AsyncCountlabel.AutoSize = true;
             this.AsyncCountlabel.Location = new System.Drawing.Point(696, 161);
             this.AsyncCountlabel.Name = "AsyncCountlabel";
-            this.AsyncCountlabel.Size = new System.Drawing.Size(13, 15);
+            this.AsyncCountlabel.Size = new System.Drawing.Size(23, 15);
             this.AsyncCountlabel.TabIndex = 11;
-            this.AsyncCountlabel.Text = "0";
+            this.AsyncCountlabel.Text = "0%";
             // 
             // AsyncProgressBar
             // 
@@ -149,9 +150,9 @@
             this.AsyncWIProgressCountLabel.AutoSize = true;
             this.AsyncWIProgressCountLabel.Location = new System.Drawing.Point(696, 219);
             this.AsyncWIProgressCountLabel.Name = "AsyncWIProgressCountLabel";
-            this.AsyncWIProgressCountLabel.Size = new System.Drawing.Size(13, 15);
+            this.AsyncWIProgressCountLabel.Size = new System.Drawing.Size(23, 15);
             this.AsyncWIProgressCountLabel.TabIndex = 11;
-            this.AsyncWIProgressCountLabel.Text = "0";
+            this.AsyncWIProgressCountLabel.Text = "0%";
             // 
             // AsyncIProgressButton
             // 
@@ -163,11 +164,22 @@
             this.AsyncIProgressButton.UseVisualStyleBackColor = true;
             this.AsyncIProgressButton.Click += new System.EventHandler(this.AsyncWithIProgressbutton_Click);
             // 
+            // RunAllButton
+            // 
+            this.RunAllButton.Location = new System.Drawing.Point(341, 273);
+            this.RunAllButton.Name = "RunAllButton";
+            this.RunAllButton.Size = new System.Drawing.Size(75, 23);
+            this.RunAllButton.TabIndex = 13;
+            this.RunAllButton.Text = "Start All";
+            this.RunAllButton.UseVisualStyleBackColor = true;
+            this.RunAllButton.Click += new System.EventHandler(this.RunAllButton_Click);
+            // 
             // DelegateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.RunAllButton);
             this.Controls.Add(this.AsyncIProgressButton);
             this.Controls.Add(this.AsyncWIProgressCountLabel);
             this.Controls.Add(this.Asyncbutton);
@@ -202,5 +214,6 @@
         private ProgressBar AsyncWithIProgressBar;
         private Label AsyncWIProgressCountLabel;
         private Button AsyncIProgressButton;
+        private Button RunAllButton;
     }
 }
