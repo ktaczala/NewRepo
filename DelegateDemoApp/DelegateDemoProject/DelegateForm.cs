@@ -5,18 +5,12 @@ namespace DelegateDemoProject;
 
 public partial class DelegateForm : Form
 {
+     CancellationTokenSource? _cancelSource = null;
+     CancellationTokenSource? _iCancelSource = null;
+
     public DelegateForm()
     {
         InitializeComponent();
-        // set default values for progressbars
-        TestProgressBar.Maximum = 100;
-        TestProgressBar.Step = 1;
-        BGWProgressBar.Maximum = 100;
-        BGWProgressBar.Step = 1;
-        AsyncProgressBar.Maximum = 100;
-        AsyncProgressBar.Step = 1;
-        AsyncWithIProgressBar.Maximum = 100;
-        AsyncWithIProgressBar.Step = 1;
     }
 
     // Uses a delegate to loosely couple the code from the form
@@ -38,7 +32,7 @@ public partial class DelegateForm : Form
         TestProgressBar.Value = 0;
         ManualCountLabel.Text = "0%";
         // call method to increment progressbar
-        UpdateProgressBar.IncrementProgressBar(Callback);
+        UpdateProgressBar.IncrementProgressBar(Callback, 100);
         // do cleanup
         ManualButton.Text = "Start Manual";
     }
@@ -47,8 +41,16 @@ public partial class DelegateForm : Form
     {
         // set label text to current count
         ManualCountLabel.Text = $"{i}%";
-        // force form to update **needed when not doing async or background worker
-        Application.DoEvents();
+        // added try .. catch because if closing form while jobs are running 
+        // caused exception of label control was disposed before DoEvents triggered
+        // this is needed to update form if the manual job is also running
+        // the form update affects all jobs in conjuction with the delay of the manual job
+        // i.e. NEVER mix a sync job with an async job
+        try
+        {// force form to update **needed when not doing async or background worker
+            Application.DoEvents();
+        }
+        catch { }
         // set progressbar to current count
         TestProgressBar.Value = i;
     }
@@ -84,7 +86,7 @@ public partial class DelegateForm : Form
     private void BGWTest_DoWork(object sender, DoWorkEventArgs e)
     {
         // do the work using callback to update form
-        UpdateProgressBar.IncrementProgressBarBW(Callback1, e, sender);
+        UpdateProgressBar.IncrementProgressBarBW(Callback1,  100,e, sender);
     }
     // progress changed event
     private void BGWTest_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -107,15 +109,15 @@ public partial class DelegateForm : Form
         if (Asyncbutton.Text == "Stop Async")
         {
             // if so cancel it rename button text
-            MyVariables._cancelSource!.Cancel();
+            _cancelSource!.Cancel();
             Asyncbutton.Text = "Start Async";
             return;
         }
         // button clicked to start job
         //initialize cancel token source
-        MyVariables._cancelSource = new CancellationTokenSource();
+        _cancelSource = new CancellationTokenSource();
         // create a token variable
-        var token = MyVariables._cancelSource.Token;
+        var token = _cancelSource.Token;
         // set button to stop value
         Asyncbutton.Text = "Stop Async";
         //reset values
@@ -135,7 +137,7 @@ public partial class DelegateForm : Form
         finally
         { 
             // do cleanup
-            MyVariables._cancelSource.Dispose();
+            _cancelSource.Dispose();
             Asyncbutton.Text = "Start Async";
         }
     }
@@ -145,21 +147,31 @@ public partial class DelegateForm : Form
         // Update the counter and the progressbar using invoke if needed
         AsyncCountlabel.Invoke(new Action(() => { AsyncCountlabel.Text = $"{i}%"; }));
         AsyncProgressBar.Invoke(new Action(() => { AsyncProgressBar.Value = i; }));
+        try
+        {
+            // added try .. catch because if closing form while jobs are running 
+            // caused exception of label control was disposed before DoEvents triggered
+            // this is needed to update form if the manual job is also running
+            // the form update affects all jobs in conjuction with the delay of the manual job
+            // i.e. NEVER mix a sync job with an async job
+            //Application.DoEvents();
+        }
+        catch { }
     }
     private async void AsyncWithIProgressbutton_Click(object sender, EventArgs e)
     {
         if (AsyncIProgressButton.Text == "Stop Async w/IProgress")
         {
             // if so cancel it rename button text
-            MyVariables._iCancelSource!.Cancel();
+            _iCancelSource!.Cancel();
             AsyncIProgressButton.Text = "Start Async w/IProgress";
             return;
         }
         // button clicked to start job
         //initialize cancel token source
-        MyVariables._iCancelSource = new CancellationTokenSource();
+        _iCancelSource = new CancellationTokenSource();
         // create token variable
-        var itoken = MyVariables._iCancelSource.Token;
+        var itoken = _iCancelSource.Token;
         // create the progress function
         var progress = new Progress<int>(value =>
         {
@@ -185,10 +197,33 @@ public partial class DelegateForm : Form
         finally 
         {
             // do cleanup
-            MyVariables._iCancelSource.Dispose();
+            _iCancelSource.Dispose();
             AsyncIProgressButton.Text = "Start Async w/IProgress";
         }
     }
-
-
+    // run all 4 jobs at once
+    private void RunAllButton_Click(object sender, EventArgs e)
+    {
+        // if text = Start then start the jobs
+        if (RunAllButton.Text == "Start All")
+        {
+         // rename button text for stopping the jobs
+        RunAllButton.Text = "Stop All";
+        }
+        else
+        {
+            //Jobs already running cancel them all by calling all the button clicked events
+            RunAllButton.Text = "Start All";
+            //for the manual (sync) job must set the flag to stop that job
+            MyVariables.stopmanual = true;
+        }
+        // click all the buttons
+        BackGroundWorkerButton.PerformClick();
+        Asyncbutton.PerformClick();
+        AsyncIProgressButton.PerformClick();
+        ManualButton.PerformClick();
+        // once all jobs are done (which waits here for the manual one to finish)
+        // rename button to start again
+        RunAllButton.Text = "Start All";
+    }
 }
