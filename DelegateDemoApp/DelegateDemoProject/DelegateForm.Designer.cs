@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.ManualButton = new System.Windows.Forms.Button();
-            this.TestProgressBar = new System.Windows.Forms.ProgressBar();
+            this.ManualProgressBar = new System.Windows.Forms.ProgressBar();
             this.ManualCountLabel = new System.Windows.Forms.Label();
             this.BGWCountLabel = new System.Windows.Forms.Label();
             this.BGWProgressBar = new System.Windows.Forms.ProgressBar();
@@ -54,14 +54,14 @@
             this.ManualButton.UseVisualStyleBackColor = true;
             this.ManualButton.Click += new System.EventHandler(this.ManualButton_Click);
             // 
-            // TestProgressBar
+            // ManualProgressBar
             // 
-            this.TestProgressBar.Location = new System.Drawing.Point(118, 41);
-            this.TestProgressBar.Name = "TestProgressBar";
-            this.TestProgressBar.Size = new System.Drawing.Size(553, 23);
-            this.TestProgressBar.Step = 1;
-            this.TestProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.TestProgressBar.TabIndex = 1;
+            this.ManualProgressBar.Location = new System.Drawing.Point(118, 41);
+            this.ManualProgressBar.Name = "ManualProgressBar";
+            this.ManualProgressBar.Size = new System.Drawing.Size(553, 23);
+            this.ManualProgressBar.Step = 1;
+            this.ManualProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.ManualProgressBar.TabIndex = 1;
             // 
             // ManualCountLabel
             // 
@@ -190,7 +190,7 @@
             this.Controls.Add(this.BGWCountLabel);
             this.Controls.Add(this.BGWProgressBar);
             this.Controls.Add(this.ManualCountLabel);
-            this.Controls.Add(this.TestProgressBar);
+            this.Controls.Add(this.ManualProgressBar);
             this.Controls.Add(this.ManualButton);
             this.Name = "DelegateForm";
             this.Text = "Using Delegates";
@@ -202,7 +202,7 @@
         #endregion
 
         private Button ManualButton;
-        private ProgressBar TestProgressBar;
+        private ProgressBar ManualProgressBar;
         private Label ManualCountLabel;
         private Label BGWCountLabel;
         private ProgressBar BGWProgressBar;

@@ -24,10 +24,10 @@ public class UpdateProgressBar
         for (int i = 1; i <= count; i++)
         {
             // check of manual button clicked 2nd time
-            if (MyVariables.stopmanual) 
+            if (MyVariables.stopManual) 
             {
                 // reset flag to false
-                MyVariables.stopmanual = false;
+                MyVariables.stopManual = false;
                 return; 
             }
                 // call the delegate to update the progressbar and the count
