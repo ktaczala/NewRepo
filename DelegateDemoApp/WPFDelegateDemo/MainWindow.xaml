@@ -1,0 +1,25 @@
+﻿<Window x:Class="WPFDelegateDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFDelegateDemo"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Button x:Name="WPFManualButton" Content="Start Manual" HorizontalAlignment="Center" Margin="0,30,0,0" VerticalAlignment="Top" Click="ManualButton_Click"/>
+        <Button x:Name="WPFBGWButton" Content="Start BackGroundWorker" HorizontalAlignment="Center" Margin="0,100,0,0" VerticalAlignment="Top" Click="WPFBGWButton_Click"/>
+        <Button x:Name="WPFAsyncButton" Content="Start Async" HorizontalAlignment="Center" Margin="0,170,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="WPFAsyncWIProgressButton" Content="Start Async w/IProgess" HorizontalAlignment="Center" Margin="0,240,0,0" VerticalAlignment="Top"/>
+        <ProgressBar x:Name="WPFManualPBar" HorizontalAlignment="Center" Height="20" Margin="0,62,0,0" VerticalAlignment="Top" Width="600"/>
+        <ProgressBar x:Name="WPFBGWPBar" HorizontalAlignment="Center" Height="20" Margin="0,132,0,0" VerticalAlignment="Top" Width="600"/>
+        <ProgressBar x:Name="WPFAsyncPBar" HorizontalAlignment="Center" Height="20" Margin="0,202,0,0" VerticalAlignment="Top" Width="600"/>
+        <ProgressBar x:Name="WPFAsyncWIPBar" HorizontalAlignment="Center" Height="20" Margin="0,272,0,0" VerticalAlignment="Top" Width="600"/>
+        <Button x:Name="WPFStartAllButton" Content="Start All" HorizontalAlignment="Center" Margin="0,360,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="WPFManualCountLabel" Content="0%" HorizontalAlignment="Left" Margin="712,60,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="WPFBGWCountLabel" Content="0%" HorizontalAlignment="Left" Margin="712,130,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="WPFAsyncCountLabel" Content="0%" HorizontalAlignment="Left" Margin="712,200,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="WPFAsyncICountLabel" Content="0%" HorizontalAlignment="Left" Margin="712,270,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>

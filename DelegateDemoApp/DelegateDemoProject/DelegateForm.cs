@@ -23,13 +23,13 @@ public partial class DelegateForm : Form
             // if so then rename button 
             ManualButton.Text = "Start Manual";
             // set flag to stop requested
-            MyVariables.stopmanual = true;
+            MyVariables.stopManual = true;
             return;
         }
         // set button the show stop
         ManualButton.Text = "Stop Manual";
         // reset values
-        TestProgressBar.Value = 0;
+        ManualProgressBar.Value = 0;
         ManualCountLabel.Text = "0%";
         // call method to increment progressbar
         UpdateProgressBar.IncrementProgressBar(Callback, 100);
@@ -52,7 +52,7 @@ public partial class DelegateForm : Form
         }
         catch { }
         // set progressbar to current count
-        TestProgressBar.Value = i;
+        ManualProgressBar.Value = i;
     }
     // Uses a delegate to looslely couple the code from the form
     // to start the background worker job
@@ -215,7 +215,7 @@ public partial class DelegateForm : Form
             //Jobs already running cancel them all by calling all the button clicked events
             RunAllButton.Text = "Start All";
             //for the manual (sync) job must set the flag to stop that job
-            MyVariables.stopmanual = true;
+            MyVariables.stopManual = true;
         }
         // click all the buttons
         BackGroundWorkerButton.PerformClick();
