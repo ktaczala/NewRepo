@@ -10,6 +10,9 @@ namespace WPFDelegateDemo
     {
 #pragma warning disable CA2211
         public static bool stopManual = false;
+        public static bool stopAll = false;
+        public static bool asyncIProgressJobDone = false;
+        public static bool asyncProgressJobDone = false;
 #pragma warning restore CA2211
     }
 }
