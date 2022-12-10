@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Threading;
+using System.Diagnostics;
 
 namespace WPFDelegateDemo
 {
@@ -64,15 +65,6 @@ namespace WPFDelegateDemo
         //callback for the manual process
         private void Callback(int i)
         {
-            // set label text to current count
-            WPFManualCountLabel.Content = $"{i}%";
-            // set progressbar to current count
-            WPFManualPBar.Value = i;
-            // added try .. catch because if closing form while jobs are running 
-            // caused exception of control was disposed before Form Update triggered
-            // this is needed to update form if the manual job is also running
-            // the form update affects all jobs in conjuction with the delay of the manual job
-            // i.e. NEVER mix a sync job with an async job
             try
             {
                 // update the form
@@ -82,6 +74,20 @@ namespace WPFDelegateDemo
             }
             //set abort flag because form was closed while job running
             catch { WPFVariables.stopManual = true; }
+            // update the form
+            Application.Current.Dispatcher.Invoke(
+    System.Windows.Threading.DispatcherPriority.Send,
+    new System.Threading.ThreadStart(() => { }));
+            // set label text to current count
+            WPFManualCountLabel.Content = $"{i}%";
+            // set progressbar to current count
+            WPFManualPBar.Value = i;
+            // added try .. catch because if closing form while jobs are running 
+            // caused exception of control was disposed before Form Update triggered
+            // this is needed to update form if the manual job is also running
+            // the form update affects all jobs in conjuction with the delay of the manual job
+            // i.e. NEVER mix a sync job with an async job
+
         }
         private void WPFBGWButton_Click(object sender, RoutedEventArgs? e)
         {
@@ -141,6 +147,7 @@ namespace WPFDelegateDemo
                 return;
             }
             // button clicked to start job
+            WPFVariables.asyncProgressJobDone = false;
             //initialize cancel token source
             _cancelSource = new CancellationTokenSource();
             // create a token variable
@@ -154,7 +161,7 @@ namespace WPFDelegateDemo
             try
             {
                 // run job async using callback to update form
-                await Task.Run(() => WPFUpdateProgressBar.IncrementProgressBarAsync(Callback2, 100, token));
+                WPFVariables.asyncProgressJobDone = await Task.Run(() => WPFUpdateProgressBar.IncrementProgressBarAsync(Callback2, 100, token));
             }
             // come here if canceled
             catch (OperationCanceledException)
@@ -195,6 +202,7 @@ namespace WPFDelegateDemo
                 return;
             }
             // button clicked to start job
+            WPFVariables.asyncIProgressJobDone = false;
             //initialize cancel token source
             _iCancelSource = new CancellationTokenSource();
             // create token variable
@@ -214,7 +222,7 @@ namespace WPFDelegateDemo
             // do the work using IProgress to update the form
             try
             {
-                await Task.Run(() => WPFUpdateProgressBar.IncrementIProgressBarAsync(100, progress, itoken));
+                WPFVariables.asyncIProgressJobDone =  await Task.Run(() => WPFUpdateProgressBar.IncrementIProgressBarAsync(100, progress, itoken));
             }
             // come here if canceled
             catch (OperationCanceledException)
@@ -235,6 +243,11 @@ namespace WPFDelegateDemo
             {
                 // rename button text for stopping the jobs
                 WPFStartAllButton.Content = "Stop All";
+                //disable all buttons except StopAll
+                WPFManualButton.IsEnabled= false;
+                WPFBGWButton.IsEnabled= false;
+                WPFAsyncButton.IsEnabled= false;
+                WPFAsyncWIProgressButton.IsEnabled = false;
             }
             else
             {
@@ -242,15 +255,40 @@ namespace WPFDelegateDemo
                 WPFStartAllButton.Content = "Start All";
                 //for the manual (sync) job must set the flag to stop that job
                 WPFVariables.stopManual = true;
+                //set flag to stop all jobs
+                WPFVariables.stopAll= true;
             }
             // click all the buttons
             WPFBGWButton_Click(this, null);
             WPFAsyncButton_Click(this,null);
             WPFAsyncWIProgressButton_Click(this, null);
             ManualButton_Click(this, null);
+            do
+            {
+                try
+                {
+                    // update the form
+                    Application.Current.Dispatcher.Invoke(
+            System.Windows.Threading.DispatcherPriority.Background,
+            new System.Threading.ThreadStart(() => { }));
+                }
+                catch { WPFVariables.stopManual = true; }
+                // if true stop all jobs (don't wait for any to finish)
+                if (WPFVariables.stopAll) { break; }
+            }
+            //loop until all jobs done if not cancelled
+            while (!((WPFVariables.stopManual == false) & (BGW!.IsBusy == false) &
+            (WPFVariables.asyncIProgressJobDone == true) & (WPFVariables.asyncProgressJobDone == true )));
             // once all jobs are done (which waits here for the manual one to finish)
             // rename button to start again
             WPFStartAllButton.Content = "Start All";
+            //reset manual flag
+            WPFVariables.stopAll = false;
+            //enable all buttons again
+            WPFManualButton.IsEnabled = true;
+            WPFBGWButton.IsEnabled = true;
+            WPFAsyncButton.IsEnabled = true;
+            WPFAsyncWIProgressButton.IsEnabled = true;
         }
     }
 }

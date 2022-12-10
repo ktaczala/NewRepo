@@ -24,7 +24,7 @@ namespace WPFDelegateDemo
     public delegate void Callback2(int i);
 
         // this increments the progress bar manually
-        public static void IncrementProgressBar(Callback obj, int count)
+        public static bool IncrementProgressBar(Callback obj, int count)
         {
             // simulate looping thru some data
             for (int i = 1; i <= count; i++)
@@ -34,13 +34,14 @@ namespace WPFDelegateDemo
                 {
                     // reset flag to false
                     WPFVariables.stopManual = false;
-                    return;
+                    return false;
                 }
                 // call the delegate to update the progressbar and the count
                 obj(i * 100 / count);
                 // delay for effect
                 Thread.Sleep(100);
             }
+            return true;
         }
         // this updates the progress bar via background worker
         public static void IncrementProgressBarBW(Callback1 obj, int count, DoWorkEventArgs e, object sender)
@@ -60,11 +61,11 @@ namespace WPFDelegateDemo
                 // call delegate to update progress bar, count
                 obj(i * 100 / count, e);
                 // delay for effect
-                Thread.Sleep(100);
+                Thread.Sleep(10);
             }
         }
         //update the progressbar via Async method
-        public static void IncrementProgressBarAsync(Callback2 obj, int count, CancellationToken token)
+        public static bool IncrementProgressBarAsync(Callback2 obj, int count, CancellationToken token)
 
         {
             // simulate looping thru some data
@@ -75,10 +76,11 @@ namespace WPFDelegateDemo
                 // call delegate to update progress bar, count
                 obj(i * 100 / count);
                 // delay for effect
-                Thread.Sleep(100);
+                Thread.Sleep(10);
             }
+            return true;
         }
-        public static void IncrementIProgressBarAsync(int count, IProgress<int> progress, CancellationToken itoken)
+        public static bool IncrementIProgressBarAsync(int count, IProgress<int> progress, CancellationToken itoken)
         {
             // simulate looping thru some data
             for (int i = 1; i <= count; i++)
@@ -89,8 +91,9 @@ namespace WPFDelegateDemo
                 var percentComplete = i * 100 / count;
                 progress.Report(percentComplete);
                 // delay for effect
-                Thread.Sleep(100);
+                Thread.Sleep(10);
             }
+            return true;
         }
     }
 
